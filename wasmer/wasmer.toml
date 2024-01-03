@@ -1,0 +1,15 @@
+[package]
+name = 'typst-community/hayagriva'
+version = '0.0.0-1'
+description = 'An example of using spawn in wasix'
+
+# See more keys and definitions at https://docs.wasmer.io/registry/manifest
+
+[[module]]
+name = 'hayagriva'
+source = './hayagriva.wasm'
+abi = 'wasi'
+
+[[command]]
+name = 'hayagriva'
+module = 'hayagriva'
