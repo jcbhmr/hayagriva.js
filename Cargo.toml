@@ -1,7 +1,7 @@
 [package]
 name = "hayagriva"
 description = "🦀 Greeter demo using wasm-pack to create an npm package"
-version = "0.0.1"
+version = "0.0.1+0.5.1"
 authors = ["Jacob Hummer <jcbhmr@outlook.com>"]
 license = "MIT"
 repository = "https://github.com/typst-community/hayagriva.js.git"
