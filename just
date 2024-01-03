@@ -16,6 +16,12 @@ build() (
   cargo wasix build --features cli "$@"
 )
 
+test() (
+  build
+  (cd tests/wasmer-browser; npm test)
+  # (cd tests/wasmer-node; npm test)
+)
+
 wasmer-publish() (
   cd wasmer
   cp ../hayagriva/target/wasm32-wasmer-wasi/release/hayagriva.wasm .
