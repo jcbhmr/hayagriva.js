@@ -1,0 +1,23 @@
+[package]
+name = "hayagriva"
+description = "🦀 Greeter demo using wasm-pack to create an npm package"
+version = "0.0.1"
+authors = ["Jacob Hummer <jcbhmr@outlook.com>"]
+license = "MIT"
+repository = "https://github.com/typst-community/hayagriva.js.git"
+homepage = "https://tsdocs.dev/docs/hayagriva"
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["console_error_panic_hook"]
+
+[dependencies]
+wasm-bindgen = "0.2.89"
+console_error_panic_hook = { version = "0.1.7", optional = true }
+web-sys = { version = "0.3.66", features = ["console"] }
+js-sys = "0.3.66"
+hayagriva_rs = { package = "hayagriva", version = "0.5.1" }

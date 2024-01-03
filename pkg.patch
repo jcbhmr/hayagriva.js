@@ -1,0 +1,87 @@
+diff --git a/hayagriva.d.ts b/hayagriva.d.ts
+index 2c497eb..47615c5 100644
+--- a/hayagriva.d.ts
++++ b/hayagriva.d.ts
+@@ -40,9 +40,7 @@ export class TypesFormatString {
+   readonly value: string;
+ }
+ 
+-export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
+-
+-export interface InitOutput {
++interface InitOutput {
+   readonly memory: WebAssembly.Memory;
+   readonly start: () => void;
+   readonly io_from_yaml_str: (a: number, b: number, c: number) => void;
+@@ -59,24 +57,3 @@ export interface InitOutput {
+   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+   readonly __wbindgen_start: () => void;
+ }
+-
+-export type SyncInitInput = BufferSource | WebAssembly.Module;
+-/**
+-* Instantiates the given `module`, which can either be bytes or
+-* a precompiled `WebAssembly.Module`.
+-*
+-* @param {SyncInitInput} module
+-*
+-* @returns {InitOutput}
+-*/
+-export function initSync(module: SyncInitInput): InitOutput;
+-
+-/**
+-* If `module_or_path` is {RequestInfo} or {URL}, makes a request and
+-* for everything else, calls `WebAssembly.instantiate` directly.
+-*
+-* @param {InitInput | Promise<InitInput>} module_or_path
+-*
+-* @returns {Promise<InitOutput>}
+-*/
+-export default function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
+diff --git a/hayagriva.js b/hayagriva.js
+index 4bb25ee..2baf2d7 100644
+--- a/hayagriva.js
++++ b/hayagriva.js
+@@ -1,3 +1,5 @@
++import { fetch } from 'fetch-with-file-support';
++
+ let wasm;
+ 
+ const heap = new Array(128).fill(undefined);
+@@ -314,8 +316,10 @@ async function __wbg_load(module, imports) {
+ 
+             } catch (e) {
+                 if (module.headers.get('Content-Type') != 'application/wasm') {
+-                    console.warn("`WebAssembly.instantiateStreaming` failed because your server does not serve wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n", e);
+-
++                    if (/^https?:/.test(module.url)) {
++                        console.warn("`WebAssembly.instantiateStreaming` failed because your server does not serve wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n", e);
++                    }
++                    // Otherwise assume its 'file:' or something. Continues below try/catch.
+                 } else {
+                     throw e;
+                 }
+@@ -425,5 +429,4 @@ async function __wbg_init(input) {
+     return __wbg_finalize_init(instance, module);
+ }
+ 
+-export { initSync }
+-export default __wbg_init;
++await __wbg_init();
+diff --git a/package.json b/package.json
+index f609017..f08d2c7 100644
+--- a/package.json
++++ b/package.json
+@@ -20,5 +20,9 @@
+   "types": "hayagriva.d.ts",
+   "sideEffects": [
+     "./snippets/*"
+-  ]
+-}
+\ No newline at end of file
++  ],
++  "type": "module",
++  "dependencies": {
++    "fetch-with-file-support": "1.2.0"
++  }
++}

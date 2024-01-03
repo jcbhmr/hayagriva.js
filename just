@@ -1,31 +1,42 @@
 #!/bin/bash
 set -e
 
-generate-patch() (
-  cd hayagriva
-  git diff > ../hayagriva.patch
+generate-patch()(
+  rm -rf a b pkg
+
+  build --no-patch
+  mv pkg a
+  cp -r a b
+
+  touch pkg.patch
+  (cd b && patch -p1 < ../pkg.patch)
+
+  read -p "Press ENTER once done making changes to b (a is the original)" enter
+
+  git diff --no-index --no-prefix a b > pkg.patch || true
+
+  rm -rf a b
 )
 
-patch() (
-  cd hayagriva
-  patch -p1 ../hayagriva.patch
-)
+build()(
+  if [[ $1 == '--release' ]]; then dev_flag=''; else dev_flag='--dev'; fi
+  wasm-pack build $dev_flag --target web
 
-build() (
-  cd hayagriva
-  cargo wasix build --features cli "$@"
+  if [[ $1 != '--no-patch' ]]; then
+    (cd pkg; patch -p1 < ../pkg.patch)
+  fi
+
+  (cd pkg; npm install --omit=dev)
 )
 
 test() (
   build
-  (cd tests/wasmer-browser; npm test)
-  # (cd tests/wasmer-node; npm test)
+  node --experimental-default-type=module --test
 )
 
-wasmer-publish() (
-  cd wasmer
-  cp ../hayagriva/target/wasm32-wasmer-wasi/release/hayagriva.wasm .
-  wasmer publish "$@"
+test:browser() (
+  build
+  npx --yes vite
 )
 
 cd "$(dirname "${BASH_SOURCE[0]}")"; "$@"
