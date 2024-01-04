@@ -11,7 +11,7 @@ pub struct Library(pub(crate) hayagriva_rs::Library);
 impl Library {
     #[wasm_bindgen]
     pub fn nth(&self, n: usize) -> Option<Entry> {
-        self.0.nth(n).map(|entry| Entry { 0: entry })
+        self.0.nth(n).map(|entry| Entry { 0: entry.clone() })
     }
     #[wasm_bindgen]
     pub fn is_empty(&self) -> bool {
