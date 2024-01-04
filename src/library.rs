@@ -9,6 +9,7 @@ pub struct Library(pub(crate) hayagriva_rs::Library);
 
 #[wasm_bindgen]
 impl Library {
+    #[wasm_bindgen(constructor)]
     pub fn new() -> Library {
         return Library {
             0: hayagriva_rs::Library::new(),

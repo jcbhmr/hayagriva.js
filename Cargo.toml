@@ -21,3 +21,6 @@ console_error_panic_hook = { version = "0.1.7", optional = true }
 web-sys = { version = "0.3.66", features = ["console"] }
 js-sys = "0.3.66"
 hayagriva_rs = { package = "hayagriva", version = "0.5.1" }
+
+# hayagriva_rs deep deps -- UPDATE THESE WHEN UPDATING hayagriva_rs!
+citationberg_rs = { package = "citationberg", version = "0.1.1" }
