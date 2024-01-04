@@ -26,7 +26,11 @@ build()(
     (cd pkg; patch -p1 < ../pkg.patch)
   fi
 
-  (cd pkg; npm install --omit=dev)
+  if command -v bun &> /dev/null; then
+    (cd pkg; bun install --production)
+  else
+    (cd pkg; npm install --omit=dev)
+  fi
 )
 
 build:docs() (
