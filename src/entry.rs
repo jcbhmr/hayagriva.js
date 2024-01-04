@@ -9,11 +9,8 @@ pub struct Entry(pub(crate) hayagriva_rs::Entry);
 
 #[wasm_bindgen]
 impl Entry {
-    pub fn title(&self) -> Option<types::FormatString> {
-        let res = self.0.title();
-        match res {
-            Some(title) => Some(types::FormatString { 0: title.clone() }),
-            None => None,
-        }
+    #[wasm_bindgen]
+    pub fn title(&self) -> JsValue {
+        JsValue::from_serde(&self.0.title().as_ref().map(|t| t.clone())).unwrap_or(JsValue::UNDEFINED)
     }
 }
