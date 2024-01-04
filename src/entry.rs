@@ -5,7 +5,6 @@ use wasm_bindgen::prelude::*;
 use web_sys::*;
 
 #[wasm_bindgen]
-#[repr(transparent)]
 pub struct Entry(pub(crate) hayagriva_rs::Entry);
 
 #[wasm_bindgen]

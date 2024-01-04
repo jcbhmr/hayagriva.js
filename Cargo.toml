@@ -1,6 +1,6 @@
 [package]
 name = "hayagriva"
-description = "🦀 Greeter demo using wasm-pack to create an npm package"
+description = "🦀 Rusty bibliography management for JavaScript"
 version = "0.0.1+0.5.1"
 authors = ["Jacob Hummer <jcbhmr@outlook.com>"]
 license = "MIT"
