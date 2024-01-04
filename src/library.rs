@@ -32,7 +32,7 @@ impl Library {
     #[wasm_bindgen]
     #[wasm_bindgen]
     pub fn iter(&self) -> js_sys::Iterator {
-        self.0.iter().map(|entry| JsValue::from_serde(&Entry { 0: entry.clone() }).unwrap()).collect::<Array>().values()
+        self.0.iter().map(|entry| JsValue::into_serde(&Entry { 0: entry.clone() }).unwrap()).collect::<Array>().values()
     }
     #[wasm_bindgen]
     pub fn new() -> Library {
