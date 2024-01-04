@@ -16,4 +16,21 @@ impl Entry {
             None => None,
         }
     }
+
+    #[wasm_bindgen]
+    pub fn key(&self) -> String {
+        self.0.key().into()
+    }
+
+    #[wasm_bindgen(constructor)]
+    pub fn new(key: String, entry_type: types::EntryType) -> Entry {
+        Entry(hayagriva_rs::Entry::new(&key, entry_type.0))
+    }
+
+    #[wasm_bindgen]
+    pub fn has(&self, key: String) -> bool {
+        self.0.has(&key)
+    }
+
+    // TODO: Add similar wrapper methods for all the other methods listed in the issue description.
 }
