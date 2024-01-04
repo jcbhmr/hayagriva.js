@@ -32,5 +32,19 @@ impl Entry {
         self.0.has(&key)
     }
 
-    // TODO: Add similar wrapper methods for all the other methods listed in the issue description.
+    // Wrapper methods for other hayagriva_rs::Entry class methods
+    #[wasm_bindgen]
+    pub fn authors(&self) -> Array {
+        self.0.authors().iter().map(JsValue::from).collect::<Array>()
+    }
+
+    #[wasm_bindgen]
+    pub fn year(&self) -> Option<i32> {
+        self.0.year()
+    }
+
+    #[wasm_bindgen]
+    pub fn publication(&self) -> Option<String> {
+        self.0.publication().map(|p| p.into())
+    }
 }
