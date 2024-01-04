@@ -4,6 +4,20 @@
 
 ## Installation
 
+```sh
+npm install hayagriva
+```
+
+```js
+import * as hayagriva from "npm:hayagriva"
+```
+
+```html
+<script type="module">
+  import * as hayagriva from "https://esm.sh/hayagriva@0"
+</script>
+```
+
 ## Usage
 
 ```js
@@ -21,5 +35,12 @@ crazy-rich:
 
 const lib = hayagriva.from_yaml_str(yaml);
 const entry = lib.get("my-book")
-console.log(entry.)
+console.log(entry.title().value)
+//=> 'Crazy Rich Asians'
+```
+
+## Development
+
+```sh
+./just test
 ```
