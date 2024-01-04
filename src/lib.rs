@@ -1,4 +1,5 @@
-#![cfg_attr(debug_assertions, allow(dead_code, unused_imports))]
+#![cfg_attr(debug_assertions, allow(dead_code, unused_imports, unused_variables))]
+
 use hayagriva_rs;
 use js_sys::*;
 use wasm_bindgen::prelude::*;
@@ -10,7 +11,10 @@ mod library;
 pub use entry::*;
 pub use library::*;
 
+mod citationberg;
+
 pub mod io;
+pub mod lang;
 pub mod types;
 
 #[wasm_bindgen(start)]

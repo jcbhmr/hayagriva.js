@@ -116,6 +116,7 @@ checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
 name = "hayagriva"
 version = "0.0.1+0.5.1"
 dependencies = [
+ "citationberg",
  "console_error_panic_hook",
  "hayagriva 0.5.1",
  "js-sys",
