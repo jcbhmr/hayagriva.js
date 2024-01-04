@@ -30,8 +30,9 @@ impl Library {
         self.0.keys().map(JsValue::from).collect::<Array>().values()
     }
     #[wasm_bindgen]
-    pub fn iter(&self) -> Box<dyn Iterator<Item = Entry>> {
-        Box::new(self.0.iter().map(|entry| Entry { 0: entry.clone() }))
+    #[wasm_bindgen]
+    pub fn iter(&self) -> js_sys::Iterator {
+        self.0.iter().map(|entry| JsValue::from_serde(&Entry { 0: entry.clone() }).unwrap()).collect::<Array>().values()
     }
     #[wasm_bindgen]
     pub fn new() -> Library {
