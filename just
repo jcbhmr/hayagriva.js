@@ -29,9 +29,25 @@ build()(
   (cd pkg; npm install --omit=dev)
 )
 
+build:docs() (
+  build
+  cd pkg
+  cat <<EOF > typedoc.json
+{
+  "entryPoints": ["hayagriva.d.ts"],
+  "skipErrorChecking": true,
+  "navigationLinks": {
+    "GitHub": "https://github.com/typst-community/hayagriva.js"
+  }
+}
+EOF
+  npx --yes typedoc
+  npx --yes http-server -c-1 docs
+)
+
 test() (
   build
-  node --experimental-default-type=module --test
+  node --experimental-default-type=module --test "$@"
 )
 
 test:browser() (

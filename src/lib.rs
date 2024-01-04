@@ -1,13 +1,12 @@
+#![cfg_attr(debug_assertions, allow(dead_code, unused_imports))]
 use hayagriva_rs;
 use js_sys::*;
 use wasm_bindgen::prelude::*;
 use web_sys::*;
 
-mod bibliography_driver;
 mod entry;
 mod library;
 
-pub use bibliography_driver::*;
 pub use entry::*;
 pub use library::*;
 
