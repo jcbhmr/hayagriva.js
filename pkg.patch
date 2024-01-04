@@ -1,9 +1,23 @@
 diff --git a/hayagriva.d.ts b/hayagriva.d.ts
-index 2c497eb..47615c5 100644
+index c0b6117..689ef7e 100644
 --- a/hayagriva.d.ts
 +++ b/hayagriva.d.ts
-@@ -40,9 +40,7 @@ export class TypesFormatString {
-   readonly value: string;
+@@ -52,11 +52,11 @@ export class Library {
+ /**
+ * @returns {Iterator<any>}
+ */
+-  iter(): Iterator<any>;
++  iter(): Iterator<Entry>;
+ /**
+ * @returns {Iterator<any>}
+ */
+-  keys(): Iterator<any>;
++  keys(): Iterator<string>;
+ /**
+ * @param {string} key
+ * @returns {Entry | undefined}
+@@ -77,9 +77,7 @@ export class Library {
+   nth(n: number): Entry | undefined;
  }
 
 -export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -11,9 +25,9 @@ index 2c497eb..47615c5 100644
 -export interface InitOutput {
 +interface InitOutput {
    readonly memory: WebAssembly.Memory;
-   readonly start: () => void;
-   readonly io_from_yaml_str: (a: number, b: number, c: number) => void;
-@@ -59,24 +57,3 @@ export interface InitOutput {
+   readonly from_biblatex_str: (a: number, b: number, c: number) => void;
+   readonly __wbg_library_free: (a: number) => void;
+@@ -104,24 +102,3 @@ export interface InitOutput {
    readonly __wbindgen_free: (a: number, b: number, c: number) => void;
    readonly __wbindgen_start: () => void;
  }
@@ -39,7 +53,7 @@ index 2c497eb..47615c5 100644
 -*/
 -export default function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;
 diff --git a/hayagriva.js b/hayagriva.js
-index 4bb25ee..2baf2d7 100644
+index 44b5d41..c3f41d2 100644
 --- a/hayagriva.js
 +++ b/hayagriva.js
 @@ -1,3 +1,5 @@
@@ -47,8 +61,8 @@ index 4bb25ee..2baf2d7 100644
 +
  let wasm;
 
- const heap = new Array(128).fill(undefined);
-@@ -314,8 +316,10 @@ async function __wbg_load(module, imports) {
+ const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
+@@ -415,8 +417,10 @@ async function __wbg_load(module, imports) {
 
              } catch (e) {
                  if (module.headers.get('Content-Type') != 'application/wasm') {
@@ -61,7 +75,7 @@ index 4bb25ee..2baf2d7 100644
                  } else {
                      throw e;
                  }
-@@ -425,5 +429,4 @@ async function __wbg_init(input) {
+@@ -547,5 +551,4 @@ async function __wbg_init(input) {
      return __wbg_finalize_init(instance, module);
  }
 
@@ -69,7 +83,7 @@ index 4bb25ee..2baf2d7 100644
 -export default __wbg_init;
 +await __wbg_init();
 diff --git a/package.json b/package.json
-index f609017..f08d2c7 100644
+index 7c71f12..8cf8516 100644
 --- a/package.json
 +++ b/package.json
 @@ -20,5 +20,9 @@

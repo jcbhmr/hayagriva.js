@@ -9,10 +9,11 @@ generate-patch()(
   cp -r a b
 
   touch pkg.patch
-  (cd b && patch -p1 < ../pkg.patch)
+  (cd b; patch -p1 < ../pkg.patch)
 
   read -p "Press ENTER once done making changes to b (a is the original)" enter
 
+  (cd b; find . -name '*.orig' -delete )
   git diff --no-index --no-prefix a b > pkg.patch || true
 
   rm -rf a b
@@ -26,11 +27,7 @@ build()(
     (cd pkg; patch -p1 < ../pkg.patch)
   fi
 
-  if command -v bun &> /dev/null; then
-    (cd pkg; bun install --production)
-  else
-    (cd pkg; npm install --omit=dev)
-  fi
+  (cd pkg; npm install --omit=dev)
 )
 
 build:docs() (
@@ -50,7 +47,7 @@ EOF
 )
 
 test() (
-  build
+  if [[ $1 == '--no-build' ]]; then shift; else build; fi
   node --experimental-default-type=module --test "$@"
 )
 
