@@ -18,3 +18,22 @@ test("Library#iter()", () => {
   console.log(entries)
   assert.equal(entries.length, 1)
 })
+
+test("Library#keys()", () => {
+  const lib = hayagriva.from_yaml_str(yaml)
+  const keys = [...lib.iter()]
+  console.log(keys)
+  assert.equal(keys.length, 1)
+})
+
+test("Entry#key()", () => {
+  const lib = hayagriva.from_yaml_str(yaml)
+  const entry = lib.nth(0)
+  console.log(entry.key())
+})
+
+test("Entry#entry_type()", () => {
+  const lib = hayagriva.from_yaml_str(yaml)
+  const entry = lib.nth(0)
+  console.log(entry.entry_type())
+})

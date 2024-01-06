@@ -20,4 +20,5 @@ wasm-bindgen = "0.2.89"
 console_error_panic_hook = { version = "0.1.7", optional = true }
 web-sys = { version = "0.3.66", features = ["console"] }
 js-sys = "0.3.66"
-hayagriva_rs = { package = "hayagriva", version = "0.5.1" }
+hayagriva-rs = { package = "hayagriva", version = "0.5.1" } # citationberg@0.1.1
+citationberg-wasm = { git = "https://github.com/jcbhmr/citationberg.js.git", branch = "main" }
