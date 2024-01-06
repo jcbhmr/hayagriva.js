@@ -17,8 +17,8 @@ pub mod io;
 pub mod lang;
 pub mod types;
 
+#[cfg(feature = "console_error_panic_hook")]
 #[wasm_bindgen(start)]
 fn start() {
-    #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
 }

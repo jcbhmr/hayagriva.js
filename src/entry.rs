@@ -46,5 +46,7 @@ impl Entry {
         });
     }
 
-    // pub fn
+    pub fn date(&self) -> Option<types::Date> {
+        todo!();
+    }
 }
